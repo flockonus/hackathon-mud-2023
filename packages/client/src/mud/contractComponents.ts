@@ -20,5 +20,62 @@ export function defineContractComponents(world: World) {
         }
       );
     })(),
+    Map: (() => {
+      const tableId = new TableId("", "Map");
+      return defineComponent(
+        world,
+        {
+          uniqueId: RecsType.BigInt,
+          dimension: RecsType.Number,
+          locationsInitialized: RecsType.Boolean,
+        },
+        {
+          metadata: {
+            contractId: tableId.toHexString(),
+            tableId: tableId.toString(),
+          },
+        }
+      );
+    })(),
+    MapLocations: (() => {
+      const tableId = new TableId("", "MapLocations");
+      return defineComponent(
+        world,
+        {
+          kind: RecsType.Number,
+          owner: RecsType.String,
+          color: RecsType.Number,
+          x_: RecsType.Number,
+          y_: RecsType.Number,
+        },
+        {
+          metadata: {
+            contractId: tableId.toHexString(),
+            tableId: tableId.toString(),
+          },
+        }
+      );
+    })(),
+    Player: (() => {
+      const tableId = new TableId("", "Player");
+      return defineComponent(
+        world,
+        {
+          x: RecsType.Number,
+          y: RecsType.Number,
+          coinR: RecsType.Number,
+          coinG: RecsType.Number,
+          coinB: RecsType.Number,
+          coinSTABLE: RecsType.Number,
+          stamina: RecsType.Number,
+        },
+        {
+          metadata: {
+            contractId: tableId.toHexString(),
+            tableId: tableId.toString(),
+          },
+        }
+      );
+    })(),
   };
 }
