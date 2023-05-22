@@ -7,4 +7,6 @@ interface IMapSystem {
   function setupMap() external returns (uint32);
 
   function joinGame() external;
+
+  function debugTime() external view returns (uint256);
 }

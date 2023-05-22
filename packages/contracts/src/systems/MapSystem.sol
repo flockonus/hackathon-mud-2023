@@ -35,6 +35,10 @@ contract MapSystem is System {
     
   }
 
+  function debugTime() public view returns (uint256) {
+    return block.timestamp;
+  }
+
   function rand() internal returns (uint256) {
     seed += 1;
     return uint256(keccak256(abi.encode(blockhash(block.number - 1), seed)));

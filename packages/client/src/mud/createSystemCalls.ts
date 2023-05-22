@@ -6,7 +6,7 @@ import { SetupNetworkResult } from "./setupNetwork";
 export type SystemCalls = ReturnType<typeof createSystemCalls>;
 
 export function createSystemCalls(
-  { worldSend, txReduced$, singletonEntity }: SetupNetworkResult,
+  { worldSend, worldContract, txReduced$, singletonEntity }: SetupNetworkResult,
   { Counter, Map, MapLocations }: ClientComponents
 ) {
   const increment = async () => {
@@ -21,8 +21,16 @@ export function createSystemCalls(
     return getComponentValue(Map, singletonEntity);
   }
 
+  const getTime = async () => {
+    const res = await worldContract.callStatic.debugTime()
+    console.log("getTime", res.toNumber())
+    // await awaitStreamValue(txReduced$, (txHash) => txHash === tx.hash);
+    // return getComponentValue(Map, singletonEntity);
+  }
+
   return {
     increment,
     setupMap,
+    getTime,
   };
 }
