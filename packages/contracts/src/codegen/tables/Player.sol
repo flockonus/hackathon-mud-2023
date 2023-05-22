@@ -21,6 +21,7 @@ bytes32 constant _tableId = bytes32(abi.encodePacked(bytes16(""), bytes16("Playe
 bytes32 constant PlayerTableId = _tableId;
 
 struct PlayerData {
+  uint8 position;
   uint8 x;
   uint8 y;
   uint32 coinR;
@@ -33,14 +34,15 @@ struct PlayerData {
 library Player {
   /** Get the table's schema */
   function getSchema() internal pure returns (Schema) {
-    SchemaType[] memory _schema = new SchemaType[](7);
+    SchemaType[] memory _schema = new SchemaType[](8);
     _schema[0] = SchemaType.UINT8;
     _schema[1] = SchemaType.UINT8;
-    _schema[2] = SchemaType.UINT32;
+    _schema[2] = SchemaType.UINT8;
     _schema[3] = SchemaType.UINT32;
     _schema[4] = SchemaType.UINT32;
     _schema[5] = SchemaType.UINT32;
     _schema[6] = SchemaType.UINT32;
+    _schema[7] = SchemaType.UINT32;
 
     return SchemaLib.encode(_schema);
   }
@@ -54,14 +56,15 @@ library Player {
 
   /** Get the table's metadata */
   function getMetadata() internal pure returns (string memory, string[] memory) {
-    string[] memory _fieldNames = new string[](7);
-    _fieldNames[0] = "x";
-    _fieldNames[1] = "y";
-    _fieldNames[2] = "coinR";
-    _fieldNames[3] = "coinG";
-    _fieldNames[4] = "coinB";
-    _fieldNames[5] = "coinSTABLE";
-    _fieldNames[6] = "stamina";
+    string[] memory _fieldNames = new string[](8);
+    _fieldNames[0] = "position";
+    _fieldNames[1] = "x";
+    _fieldNames[2] = "y";
+    _fieldNames[3] = "coinR";
+    _fieldNames[4] = "coinG";
+    _fieldNames[5] = "coinB";
+    _fieldNames[6] = "coinSTABLE";
+    _fieldNames[7] = "stamina";
     return ("Player", _fieldNames);
   }
 
@@ -87,12 +90,46 @@ library Player {
     _store.setMetadata(_tableId, _tableName, _fieldNames);
   }
 
+  /** Get position */
+  function getPosition(bytes32 key) internal view returns (uint8 position) {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = bytes32((key));
+
+    bytes memory _blob = StoreSwitch.getField(_tableId, _keyTuple, 0);
+    return (uint8(Bytes.slice1(_blob, 0)));
+  }
+
+  /** Get position (using the specified store) */
+  function getPosition(IStore _store, bytes32 key) internal view returns (uint8 position) {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = bytes32((key));
+
+    bytes memory _blob = _store.getField(_tableId, _keyTuple, 0);
+    return (uint8(Bytes.slice1(_blob, 0)));
+  }
+
+  /** Set position */
+  function setPosition(bytes32 key, uint8 position) internal {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = bytes32((key));
+
+    StoreSwitch.setField(_tableId, _keyTuple, 0, abi.encodePacked((position)));
+  }
+
+  /** Set position (using the specified store) */
+  function setPosition(IStore _store, bytes32 key, uint8 position) internal {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = bytes32((key));
+
+    _store.setField(_tableId, _keyTuple, 0, abi.encodePacked((position)));
+  }
+
   /** Get x */
   function getX(bytes32 key) internal view returns (uint8 x) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32((key));
 
-    bytes memory _blob = StoreSwitch.getField(_tableId, _keyTuple, 0);
+    bytes memory _blob = StoreSwitch.getField(_tableId, _keyTuple, 1);
     return (uint8(Bytes.slice1(_blob, 0)));
   }
 
@@ -101,7 +138,7 @@ library Player {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32((key));
 
-    bytes memory _blob = _store.getField(_tableId, _keyTuple, 0);
+    bytes memory _blob = _store.getField(_tableId, _keyTuple, 1);
     return (uint8(Bytes.slice1(_blob, 0)));
   }
 
@@ -110,7 +147,7 @@ library Player {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32((key));
 
-    StoreSwitch.setField(_tableId, _keyTuple, 0, abi.encodePacked((x)));
+    StoreSwitch.setField(_tableId, _keyTuple, 1, abi.encodePacked((x)));
   }
 
   /** Set x (using the specified store) */
@@ -118,7 +155,7 @@ library Player {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32((key));
 
-    _store.setField(_tableId, _keyTuple, 0, abi.encodePacked((x)));
+    _store.setField(_tableId, _keyTuple, 1, abi.encodePacked((x)));
   }
 
   /** Get y */
@@ -126,7 +163,7 @@ library Player {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32((key));
 
-    bytes memory _blob = StoreSwitch.getField(_tableId, _keyTuple, 1);
+    bytes memory _blob = StoreSwitch.getField(_tableId, _keyTuple, 2);
     return (uint8(Bytes.slice1(_blob, 0)));
   }
 
@@ -135,7 +172,7 @@ library Player {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32((key));
 
-    bytes memory _blob = _store.getField(_tableId, _keyTuple, 1);
+    bytes memory _blob = _store.getField(_tableId, _keyTuple, 2);
     return (uint8(Bytes.slice1(_blob, 0)));
   }
 
@@ -144,7 +181,7 @@ library Player {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32((key));
 
-    StoreSwitch.setField(_tableId, _keyTuple, 1, abi.encodePacked((y)));
+    StoreSwitch.setField(_tableId, _keyTuple, 2, abi.encodePacked((y)));
   }
 
   /** Set y (using the specified store) */
@@ -152,7 +189,7 @@ library Player {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32((key));
 
-    _store.setField(_tableId, _keyTuple, 1, abi.encodePacked((y)));
+    _store.setField(_tableId, _keyTuple, 2, abi.encodePacked((y)));
   }
 
   /** Get coinR */
@@ -160,7 +197,7 @@ library Player {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32((key));
 
-    bytes memory _blob = StoreSwitch.getField(_tableId, _keyTuple, 2);
+    bytes memory _blob = StoreSwitch.getField(_tableId, _keyTuple, 3);
     return (uint32(Bytes.slice4(_blob, 0)));
   }
 
@@ -169,7 +206,7 @@ library Player {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32((key));
 
-    bytes memory _blob = _store.getField(_tableId, _keyTuple, 2);
+    bytes memory _blob = _store.getField(_tableId, _keyTuple, 3);
     return (uint32(Bytes.slice4(_blob, 0)));
   }
 
@@ -178,7 +215,7 @@ library Player {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32((key));
 
-    StoreSwitch.setField(_tableId, _keyTuple, 2, abi.encodePacked((coinR)));
+    StoreSwitch.setField(_tableId, _keyTuple, 3, abi.encodePacked((coinR)));
   }
 
   /** Set coinR (using the specified store) */
@@ -186,7 +223,7 @@ library Player {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32((key));
 
-    _store.setField(_tableId, _keyTuple, 2, abi.encodePacked((coinR)));
+    _store.setField(_tableId, _keyTuple, 3, abi.encodePacked((coinR)));
   }
 
   /** Get coinG */
@@ -194,7 +231,7 @@ library Player {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32((key));
 
-    bytes memory _blob = StoreSwitch.getField(_tableId, _keyTuple, 3);
+    bytes memory _blob = StoreSwitch.getField(_tableId, _keyTuple, 4);
     return (uint32(Bytes.slice4(_blob, 0)));
   }
 
@@ -203,7 +240,7 @@ library Player {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32((key));
 
-    bytes memory _blob = _store.getField(_tableId, _keyTuple, 3);
+    bytes memory _blob = _store.getField(_tableId, _keyTuple, 4);
     return (uint32(Bytes.slice4(_blob, 0)));
   }
 
@@ -212,7 +249,7 @@ library Player {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32((key));
 
-    StoreSwitch.setField(_tableId, _keyTuple, 3, abi.encodePacked((coinG)));
+    StoreSwitch.setField(_tableId, _keyTuple, 4, abi.encodePacked((coinG)));
   }
 
   /** Set coinG (using the specified store) */
@@ -220,7 +257,7 @@ library Player {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32((key));
 
-    _store.setField(_tableId, _keyTuple, 3, abi.encodePacked((coinG)));
+    _store.setField(_tableId, _keyTuple, 4, abi.encodePacked((coinG)));
   }
 
   /** Get coinB */
@@ -228,7 +265,7 @@ library Player {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32((key));
 
-    bytes memory _blob = StoreSwitch.getField(_tableId, _keyTuple, 4);
+    bytes memory _blob = StoreSwitch.getField(_tableId, _keyTuple, 5);
     return (uint32(Bytes.slice4(_blob, 0)));
   }
 
@@ -237,7 +274,7 @@ library Player {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32((key));
 
-    bytes memory _blob = _store.getField(_tableId, _keyTuple, 4);
+    bytes memory _blob = _store.getField(_tableId, _keyTuple, 5);
     return (uint32(Bytes.slice4(_blob, 0)));
   }
 
@@ -246,7 +283,7 @@ library Player {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32((key));
 
-    StoreSwitch.setField(_tableId, _keyTuple, 4, abi.encodePacked((coinB)));
+    StoreSwitch.setField(_tableId, _keyTuple, 5, abi.encodePacked((coinB)));
   }
 
   /** Set coinB (using the specified store) */
@@ -254,7 +291,7 @@ library Player {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32((key));
 
-    _store.setField(_tableId, _keyTuple, 4, abi.encodePacked((coinB)));
+    _store.setField(_tableId, _keyTuple, 5, abi.encodePacked((coinB)));
   }
 
   /** Get coinSTABLE */
@@ -262,7 +299,7 @@ library Player {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32((key));
 
-    bytes memory _blob = StoreSwitch.getField(_tableId, _keyTuple, 5);
+    bytes memory _blob = StoreSwitch.getField(_tableId, _keyTuple, 6);
     return (uint32(Bytes.slice4(_blob, 0)));
   }
 
@@ -271,7 +308,7 @@ library Player {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32((key));
 
-    bytes memory _blob = _store.getField(_tableId, _keyTuple, 5);
+    bytes memory _blob = _store.getField(_tableId, _keyTuple, 6);
     return (uint32(Bytes.slice4(_blob, 0)));
   }
 
@@ -280,7 +317,7 @@ library Player {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32((key));
 
-    StoreSwitch.setField(_tableId, _keyTuple, 5, abi.encodePacked((coinSTABLE)));
+    StoreSwitch.setField(_tableId, _keyTuple, 6, abi.encodePacked((coinSTABLE)));
   }
 
   /** Set coinSTABLE (using the specified store) */
@@ -288,7 +325,7 @@ library Player {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32((key));
 
-    _store.setField(_tableId, _keyTuple, 5, abi.encodePacked((coinSTABLE)));
+    _store.setField(_tableId, _keyTuple, 6, abi.encodePacked((coinSTABLE)));
   }
 
   /** Get stamina */
@@ -296,7 +333,7 @@ library Player {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32((key));
 
-    bytes memory _blob = StoreSwitch.getField(_tableId, _keyTuple, 6);
+    bytes memory _blob = StoreSwitch.getField(_tableId, _keyTuple, 7);
     return (uint32(Bytes.slice4(_blob, 0)));
   }
 
@@ -305,7 +342,7 @@ library Player {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32((key));
 
-    bytes memory _blob = _store.getField(_tableId, _keyTuple, 6);
+    bytes memory _blob = _store.getField(_tableId, _keyTuple, 7);
     return (uint32(Bytes.slice4(_blob, 0)));
   }
 
@@ -314,7 +351,7 @@ library Player {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32((key));
 
-    StoreSwitch.setField(_tableId, _keyTuple, 6, abi.encodePacked((stamina)));
+    StoreSwitch.setField(_tableId, _keyTuple, 7, abi.encodePacked((stamina)));
   }
 
   /** Set stamina (using the specified store) */
@@ -322,7 +359,7 @@ library Player {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32((key));
 
-    _store.setField(_tableId, _keyTuple, 6, abi.encodePacked((stamina)));
+    _store.setField(_tableId, _keyTuple, 7, abi.encodePacked((stamina)));
   }
 
   /** Get the full data */
@@ -346,6 +383,7 @@ library Player {
   /** Set the full data using individual values */
   function set(
     bytes32 key,
+    uint8 position,
     uint8 x,
     uint8 y,
     uint32 coinR,
@@ -354,7 +392,7 @@ library Player {
     uint32 coinSTABLE,
     uint32 stamina
   ) internal {
-    bytes memory _data = encode(x, y, coinR, coinG, coinB, coinSTABLE, stamina);
+    bytes memory _data = encode(position, x, y, coinR, coinG, coinB, coinSTABLE, stamina);
 
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32((key));
@@ -366,6 +404,7 @@ library Player {
   function set(
     IStore _store,
     bytes32 key,
+    uint8 position,
     uint8 x,
     uint8 y,
     uint32 coinR,
@@ -374,7 +413,7 @@ library Player {
     uint32 coinSTABLE,
     uint32 stamina
   ) internal {
-    bytes memory _data = encode(x, y, coinR, coinG, coinB, coinSTABLE, stamina);
+    bytes memory _data = encode(position, x, y, coinR, coinG, coinB, coinSTABLE, stamina);
 
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32((key));
@@ -384,33 +423,57 @@ library Player {
 
   /** Set the full data using the data struct */
   function set(bytes32 key, PlayerData memory _table) internal {
-    set(key, _table.x, _table.y, _table.coinR, _table.coinG, _table.coinB, _table.coinSTABLE, _table.stamina);
+    set(
+      key,
+      _table.position,
+      _table.x,
+      _table.y,
+      _table.coinR,
+      _table.coinG,
+      _table.coinB,
+      _table.coinSTABLE,
+      _table.stamina
+    );
   }
 
   /** Set the full data using the data struct (using the specified store) */
   function set(IStore _store, bytes32 key, PlayerData memory _table) internal {
-    set(_store, key, _table.x, _table.y, _table.coinR, _table.coinG, _table.coinB, _table.coinSTABLE, _table.stamina);
+    set(
+      _store,
+      key,
+      _table.position,
+      _table.x,
+      _table.y,
+      _table.coinR,
+      _table.coinG,
+      _table.coinB,
+      _table.coinSTABLE,
+      _table.stamina
+    );
   }
 
   /** Decode the tightly packed blob using this table's schema */
   function decode(bytes memory _blob) internal pure returns (PlayerData memory _table) {
-    _table.x = (uint8(Bytes.slice1(_blob, 0)));
+    _table.position = (uint8(Bytes.slice1(_blob, 0)));
 
-    _table.y = (uint8(Bytes.slice1(_blob, 1)));
+    _table.x = (uint8(Bytes.slice1(_blob, 1)));
 
-    _table.coinR = (uint32(Bytes.slice4(_blob, 2)));
+    _table.y = (uint8(Bytes.slice1(_blob, 2)));
 
-    _table.coinG = (uint32(Bytes.slice4(_blob, 6)));
+    _table.coinR = (uint32(Bytes.slice4(_blob, 3)));
 
-    _table.coinB = (uint32(Bytes.slice4(_blob, 10)));
+    _table.coinG = (uint32(Bytes.slice4(_blob, 7)));
 
-    _table.coinSTABLE = (uint32(Bytes.slice4(_blob, 14)));
+    _table.coinB = (uint32(Bytes.slice4(_blob, 11)));
 
-    _table.stamina = (uint32(Bytes.slice4(_blob, 18)));
+    _table.coinSTABLE = (uint32(Bytes.slice4(_blob, 15)));
+
+    _table.stamina = (uint32(Bytes.slice4(_blob, 19)));
   }
 
   /** Tightly pack full data using this table's schema */
   function encode(
+    uint8 position,
     uint8 x,
     uint8 y,
     uint32 coinR,
@@ -419,7 +482,7 @@ library Player {
     uint32 coinSTABLE,
     uint32 stamina
   ) internal view returns (bytes memory) {
-    return abi.encodePacked(x, y, coinR, coinG, coinB, coinSTABLE, stamina);
+    return abi.encodePacked(position, x, y, coinR, coinG, coinB, coinSTABLE, stamina);
   }
 
   /** Encode keys as a bytes32 array using this table's schema */

@@ -10,10 +10,12 @@ export default mudConfig({
       keySchema: {},
       schema: "uint32",
     },
+    // singleton
     Map: {
       keySchema: {},
       schema: {
         uniqueId: "uint64",
+        playersIn: "uint8",
         dimension: "uint8",
         locationsInitialized: "bool",
       }
@@ -38,6 +40,7 @@ export default mudConfig({
     // we'll have 1 Game per contract for now just to keep modeling simpler
     Player: {
       schema: {
+        position: "uint8",
         x: "uint8",
         y: "uint8",
         coinR: "uint32",

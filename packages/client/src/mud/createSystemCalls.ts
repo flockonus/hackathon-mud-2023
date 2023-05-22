@@ -21,16 +21,21 @@ export function createSystemCalls(
     return getComponentValue(Map, singletonEntity);
   }
 
+  const joinGame = async () => {
+    const tx = await worldSend("joinGame", []);
+    await awaitStreamValue(txReduced$, (txHash) => txHash === tx.hash);
+    return getComponentValue(Map, singletonEntity);
+  }
+
   const getTime = async () => {
     const res = await worldContract.callStatic.debugTime()
     console.log("getTime", res.toNumber())
-    // await awaitStreamValue(txReduced$, (txHash) => txHash === tx.hash);
-    // return getComponentValue(Map, singletonEntity);
   }
 
   return {
     increment,
     setupMap,
+    joinGame,
     getTime,
   };
 }

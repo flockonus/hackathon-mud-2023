@@ -26,6 +26,7 @@ export function defineContractComponents(world: World) {
         world,
         {
           uniqueId: RecsType.BigInt,
+          playersIn: RecsType.Number,
           dimension: RecsType.Number,
           locationsInitialized: RecsType.Boolean,
         },
@@ -61,6 +62,7 @@ export function defineContractComponents(world: World) {
       return defineComponent(
         world,
         {
+          position: RecsType.Number,
           x: RecsType.Number,
           y: RecsType.Number,
           coinR: RecsType.Number,

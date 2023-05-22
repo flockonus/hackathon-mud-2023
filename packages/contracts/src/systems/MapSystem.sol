@@ -2,7 +2,8 @@
 pragma solidity >=0.8.0;
 
 import { System } from "@latticexyz/world/src/System.sol";
-import { Map, MapData, MapLocations } from "../codegen/Tables.sol";
+import { Map, MapData, MapLocations, Player} from "../codegen/Tables.sol";
+import { addressToEntityKey } from "../addressToEntityKey.sol";
 
 import { Structures, Colors } from "../codegen/Types.sol";
 
@@ -26,13 +27,34 @@ contract MapSystem is System {
     MapLocations.set(3,12,  Structures.Mine, address(0), Colors.Blue, 3,12);
     MapLocations.set(7,7,   Structures.Exchange, address(1), Colors.None, 7,7);
 
-    Map.set(uint64(rand()), 15, true);
+    Map.set(uint64(rand()), 0, 15, true);
 
     return 0;
   }
 
   function joinGame() public {
-    
+    MapData memory mapInfo = Map.get();
+    require(mapInfo.locationsInitialized, "map not yet init");
+
+    bytes32 player = addressToEntityKey(address(_msgSender()));
+    require(Player.get(player).position == 0, "already joined");
+
+    MapData memory map = Map.get();
+    require(map.playersIn < 4, "game already has 4p");
+    Map.setPlayersIn(map.playersIn + 1);
+
+    Player.set({
+      key: player,
+      position: uint8(map.playersIn + 1),
+      // simple auto-set for now
+      x: uint8(map.playersIn + (uint(map.playersIn) * 45 / 100) * 2),
+      y: uint8(3),
+      coinR: uint32(100),
+      coinG: uint32(100),
+      coinB: uint32(100),
+      coinSTABLE: uint32(0),
+      stamina: uint32(200)
+    });
   }
 
   function debugTime() public view returns (uint256) {
