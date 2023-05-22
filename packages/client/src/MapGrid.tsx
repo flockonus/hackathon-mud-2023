@@ -3,6 +3,13 @@ import { Entity } from "@latticexyz/recs";
 import { twMerge } from "tailwind-merge";
 import { useMUD } from "./MUDContext";
 
+export enum ColorsType {
+  None,
+  Red,
+  Green,
+  Blue,
+}
+
 type Props = {
   dimension: number;
   onTileClick: (x: number, y: number) => void;

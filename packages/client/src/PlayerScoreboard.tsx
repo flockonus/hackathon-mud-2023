@@ -32,7 +32,7 @@ export const PlayerScoreboard = () => {
 
   function renderPlayerBoardRow(player:any) {
     return (<li key={`board-row-${player.position}`}>
-      {player._self ? '⭐️' : ''}
+      {player._self ? '⭐️' : '💨'}
       {/* {JSON.stringify(player)} */}
       🔴: {player.coinR} 
       🟢: {player.coinG} 

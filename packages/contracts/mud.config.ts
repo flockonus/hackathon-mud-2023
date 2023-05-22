@@ -2,7 +2,7 @@ import { mudConfig } from "@latticexyz/world/register";
 
 export default mudConfig({
   enums: {
-    Structures: ["Mine", "Exchange"],
+    Structures: ["None", "Mine", "Exchange"],
     Colors: ["None", "Red", "Green", "Blue"],
   },
   tables: {
