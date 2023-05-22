@@ -49,17 +49,34 @@ img {
     align-content: stretch;
 }
 
-.stage > div {
-    padding: 5vh 5vw;
-}
-
 .left-panel {
     width: 20vw;
     background-color: #DFD;
+
+    padding: 2vh 2vw;
+
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: stretch;
+    align-content: stretch;
 }
+
+.left-panel > div {
+    margin: 7vh 0;
+}
+
+.player-scoreboard li {
+    margin: 1vh 0;
+}
+
+
+
 
 .right-panel {
     width: 80vw;
+    padding: 5vh 5vw;
     background: #FDD;
 }
 

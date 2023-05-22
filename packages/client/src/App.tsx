@@ -2,6 +2,7 @@ import { useComponentValue } from "@latticexyz/react";
 import "./app.css";
 import { useMUD } from "./MUDContext";
 import { MapGrid } from "./MapGrid";
+import { PlayerScoreboard } from "./PlayerScoreboard";
 const DIMENSION = 15;
 
 export const App = () => {
@@ -29,7 +30,12 @@ export const App = () => {
   return (
     <>
       <div className="stage">
-        <div className="left-panel">left</div>
+        <div className="left-panel">
+          <div className="avatar">
+            NFTs img goes here
+          </div>
+          <PlayerScoreboard />
+        </div>
         <div className="right-panel">
           <MapGrid dimension={DIMENSION} terrain={buildTerrain()} onTileClick={console.log.bind(console, "click!")}/>
         </div>
