@@ -27,6 +27,12 @@ export function createSystemCalls(
     return getComponentValue(Map, singletonEntity);
   }
 
+  const movePlayer = async (x: number, y: number) => {
+    const tx = await worldSend("movePlayer", [x, y]);
+    await awaitStreamValue(txReduced$, (txHash) => txHash === tx.hash);
+    return getComponentValue(Map, singletonEntity);
+  }
+
   const getTime = async () => {
     const res = await worldContract.callStatic.debugTime()
     console.log("getTime", res.toNumber())
@@ -37,5 +43,6 @@ export function createSystemCalls(
     setupMap,
     joinGame,
     getTime,
+    movePlayer,
   };
 }

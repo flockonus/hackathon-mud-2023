@@ -38,11 +38,9 @@ export const nftAssets = [
 
 type Props = {
   dimension: number;
-  onTileClick: (x: number, y: number) => void;
   terrain: {
     x: number;
     y: number;
-    emoji: string;
     tileType: number;
     playerPos: number
     // true if the local player is adjancet to the tiles
@@ -62,18 +60,28 @@ type Props = {
   encounter?: ReactNode;
 };
 
-
-// initialized from emojimon:GameMap
+// inspired from emojimon:GameMap
 export const MapGrid = ({
   dimension,
-  onTileClick,
+  // onTileClick,
   terrain,
   players,
   encounter,
 }: Props) => {
   const {
     network: { playerEntity },
+    systemCalls: { movePlayer }
   } = useMUD();
+
+  // "self" player has clicked this tile
+  function playerActionIntent(tile: any) {
+    if (!tile.playerAdjacent) {
+      console.log("cant move player to tile", tile);
+      return;
+    }
+    console.log("moving player");
+    movePlayer(tile.x, tile.y);
+  }
 
 //   const rows = new Array(width).fill(0).map((_, i) => i);
 //   const columns = new Array(height).fill(0).map((_, i) => i);
@@ -97,7 +105,7 @@ export const MapGrid = ({
         <div
             className={`tile structrure-mine ${classAdd}`}
             key={`tile${t.x}-${t.y}`}
-            onClick={() => onTileClick(t.x, t.y)}
+            onClick={() => console.log({x:t.x, y:t.y, obj: "click mine"})}
         >
             <img src={mineAssets[mineAssetPointer]}></img>
         </div>
@@ -109,7 +117,7 @@ export const MapGrid = ({
         <div
             className={`tile structrure-exchange ${classAdd}`}
             key={`tile${t.x}-${t.y}`}
-            onClick={() => onTileClick(t.x, t.y)}
+            onClick={() => console.log({x:t.x, y:t.y, obj: "click exchange"})}
         >
             <img className="img-exchange" src={exchangeAssets[exchangeAssetPointer]}></img>
         </div>
@@ -131,9 +139,9 @@ export const MapGrid = ({
         <div
             className={`tile ${classAdd}`}
             key={`tile${t.x}-${t.y}`}
-            onClick={() => onTileClick(t.x, t.y)}
+            onClick={() => playerActionIntent(t)}
         >
-            {t.emoji}
+            {""}
         </div>
     )
   }
@@ -161,7 +169,6 @@ export const MapGrid = ({
           const cell = terrain[myLoc.x + i][myLoc.y + j];
           if (cell) {
             cell.playerAdjacent = true;
-            // neighbors.push(cell.location_type);
           }
         }
       }

@@ -2,7 +2,7 @@
 pragma solidity >=0.8.0;
 
 import { System } from "@latticexyz/world/src/System.sol";
-import { Map, MapData, MapLocations, Player} from "../codegen/Tables.sol";
+import { Map, MapData, MapLocations, Player, PlayerData} from "../codegen/Tables.sol";
 import { addressToEntityKey } from "../addressToEntityKey.sol";
 
 import { Structures, Colors } from "../codegen/Types.sol";
@@ -53,12 +53,25 @@ contract MapSystem is System {
       coinG: uint32(100),
       coinB: uint32(100),
       coinSTABLE: uint32(0),
-      stamina: uint32(200)
+      stamina: uint32(20)
     });
   }
 
   function debugTime() public view returns (uint256) {
     return block.timestamp;
+  }
+
+  function movePlayer(uint8 x, uint8 y) public {
+    bytes32 playerKey = addressToEntityKey(address(_msgSender()));
+    
+    // TODO check for a valid move
+    // even cooler would be allow input of a number of steps, so the players can move to a destination within 1 tx
+    
+    PlayerData memory p = Player.get(playerKey);
+    require(p.stamina >= 2, "not enough stamina");
+    Player.setX(playerKey, x);
+    Player.setY(playerKey, y);
+    Player.setStamina(playerKey, p.stamina - 2);
   }
 
   function rand() internal returns (uint256) {

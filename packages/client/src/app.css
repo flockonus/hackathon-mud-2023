@@ -51,7 +51,7 @@ img {
 
 .left-panel {
     width: 20vw;
-    background-color: #DFD;
+    background-color: rgb(233, 233, 233);
 
     padding: 2vh 2vw;
 
@@ -76,8 +76,8 @@ img {
 
 .right-panel {
     width: 80vw;
-    padding: 5vh 5vw;
-    background: #FDD;
+    /* padding: 5vh 5vw; */
+    background: rgb(63, 146, 30);
 }
 
 .map-grid {
@@ -95,29 +95,28 @@ img {
 
 .tile {
     /* 80 - padding / 15 */
-    width: 4.666vw;
-    height: 4.666vw;
+    width: 5.333vw;
+    height: 5.333vw;
     border: 1px rgba(255, 255, 255, 0.2) dotted;
 
     color: yellow;
     font-weight: bold;
 }
 
-.tile.structrure-exchange.player-adjacent {
-    border: 2px rgb(30, 255, 0) solid;
+.tile.structrure-exchange.player-adjacent, .tile.structrure-mine.player-adjacent {
+    border: 4px rgb(30, 255, 0) dotted;
+}
+.tile.structrure-exchange.player-adjacent:hover, .tile.structrure-mine.player-adjacent:hover {
+    border: 3px rgb(30, 255, 0) solid;
 }
 
 .tile > img {
     max-width: 100%;
 }
 
-.tile.player {
-    /* background-color: rgba(100, 200, 200, 0.3); */
-}
-
 .tile.player-adjacent {
     cursor: pointer;
-    background-color: rgba(255, 100, 100, 0.1);
+    background-color: rgba(41, 241, 255, 0.39);
 }
 
 .tile.player-adjacent:hover {

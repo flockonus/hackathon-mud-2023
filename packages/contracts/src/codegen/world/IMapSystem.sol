@@ -9,4 +9,6 @@ interface IMapSystem {
   function joinGame() external;
 
   function debugTime() external view returns (uint256);
+
+  function movePlayer(uint8 x, uint8 y) external;
 }

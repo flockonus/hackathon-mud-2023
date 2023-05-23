@@ -41,7 +41,6 @@ export const App = () => {
         board[x][y] = {
           x,
           y,
-          emoji: ``,
           tileType: 0,
           playerPos: 0,
         }
@@ -53,7 +52,7 @@ export const App = () => {
       board[loc.x_][loc.y_] = {
         x: loc.x_,
         y: loc.y_,
-        emoji: ``,//`🏭:${loc.kind}`,
+        //`🏭:${loc.kind}`,
         tileType: loc.kind,
         playerPos: 0,
       }
@@ -61,7 +60,7 @@ export const App = () => {
 
     // fill up players
     players.forEach(p => {
-      board[p.x][p.y].emoji = ``;//`👨‍🎤:${p.position}`;
+      //`👨‍🎤:${p.position}`;
       board[p.x][p.y].playerPos = p.position;
     })
 
@@ -94,7 +93,8 @@ export const App = () => {
           <img src={nftAssets[me.position-1]}></img>
             <span>
               <img src="/assets/Stamina_Coin.png" style={{maxHeight: '50px'}}></img>
-              {me.stamina}
+              <br/>
+              {me.stamina}/20
             </span>
           </center>
         </div>
