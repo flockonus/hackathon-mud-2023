@@ -29,7 +29,7 @@ contract MapSystem is System {
 
     Map.set(uint64(rand()), 0, 15, true);
 
-    // means.. nothing.
+    // means.. nothing :D
     return 7;
   }
 
@@ -54,7 +54,7 @@ contract MapSystem is System {
       coinG: uint32(100),
       coinB: uint32(100),
       coinSTABLE: uint32(0),
-      stamina: uint32(20)
+      stamina: uint32(40)
     });
   }
 

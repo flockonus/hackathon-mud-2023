@@ -72,15 +72,19 @@ export const App = () => {
   function initGame() {
     if (mapConfig == null) {
       return (
-        <button onClick={() => setupMap()}>
-          Initialize Game
-        </button>
+        // <button onClick={() => setupMap()}>
+        //   Initialize Game
+        // </button>
+        <span>Loading...</span>
       )
     } else {
       return (
-        <button onClick={() => console.log('TODO lol')}>
-          Game Start!
-        </button>
+        // <button onClick={() => console.log('TODO lol')}>
+        //   Game Start!
+        // </button>
+        <>
+          <div>ℹ️ After joining, your character has 40 stamina, moving costs 2. Most core mechanics are still missing, more coming soon!</div>
+        </>
       )
     }
   }
@@ -92,9 +96,9 @@ export const App = () => {
           <center>
           <img src={nftAssets[me.position-1]}></img>
             <span>
-              <img src="/assets/Stamina_Coin.png" style={{maxHeight: '50px'}}></img>
+              <img src="https://bafybeifnerfsia2vtqyqlmndjyhwb3tectskhfahughankqtxyoyk5afou.ipfs.nftstorage.link/Stamina_Coin.png" style={{maxHeight: '50px'}}></img>
               <br/>
-              {me.stamina}/20
+              {me.stamina}/40
             </span>
           </center>
         </div>

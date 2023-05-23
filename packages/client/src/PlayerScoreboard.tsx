@@ -6,6 +6,12 @@ import { useMUD } from "./MUDContext";
 
 // type Props = {};
 
+const coinAssets = {
+  1: 'https://bafybeifnerfsia2vtqyqlmndjyhwb3tectskhfahughankqtxyoyk5afou.ipfs.nftstorage.link/Red_Coin.png',
+  2: 'https://bafybeifnerfsia2vtqyqlmndjyhwb3tectskhfahughankqtxyoyk5afou.ipfs.nftstorage.link/Green_Coin.png',
+  3: 'https://bafybeifnerfsia2vtqyqlmndjyhwb3tectskhfahughankqtxyoyk5afou.ipfs.nftstorage.link/Blue_Coin.png',
+}
+
 // initialized from emojimon:GameMap
 export const PlayerScoreboard = () => {
   const {
@@ -32,9 +38,9 @@ export const PlayerScoreboard = () => {
     return (<li key={`board-row-${player.position}`}>
       {player._self ? '⭐️' : '💨'}
       {/* {JSON.stringify(player)} */}
-      🔴: {player.coinR} 
-      🟢: {player.coinG} 
-      🔵: {player.coinB} 
+      <img src={coinAssets[1]}></img>: {player.coinR} 
+      <img src={coinAssets[2]}></img>: {player.coinG} 
+      <img src={coinAssets[3]}></img>: {player.coinB} 
       💸: {player.coinSTABLE} 
     </li>)
   }

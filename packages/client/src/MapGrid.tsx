@@ -1,6 +1,5 @@
 import { ReactNode, useEffect, useState } from "react";
 import { Entity } from "@latticexyz/recs";
-import { twMerge } from "tailwind-merge";
 import { useMUD } from "./MUDContext";
 
 export enum ColorsType {
@@ -17,23 +16,23 @@ export enum StructuresType {
 }
 
 export const mineAssets = [
-  '/assets/Mine_01.png',
-  '/assets/Mine_02.png',
-  '/assets/Mine_03.png',
-  '/assets/Mine_04.png',
-  '/assets/Mine_05.png',
-  '/assets/Mine_06.png',
+  'https://bafybeifnerfsia2vtqyqlmndjyhwb3tectskhfahughankqtxyoyk5afou.ipfs.nftstorage.link/Mine_01.png',
+  'https://bafybeifnerfsia2vtqyqlmndjyhwb3tectskhfahughankqtxyoyk5afou.ipfs.nftstorage.link/Mine_02.png',
+  'https://bafybeifnerfsia2vtqyqlmndjyhwb3tectskhfahughankqtxyoyk5afou.ipfs.nftstorage.link/Mine_03.png',
+  'https://bafybeifnerfsia2vtqyqlmndjyhwb3tectskhfahughankqtxyoyk5afou.ipfs.nftstorage.link/Mine_04.png',
+  'https://bafybeifnerfsia2vtqyqlmndjyhwb3tectskhfahughankqtxyoyk5afou.ipfs.nftstorage.link/Mine_05.png',
+  'https://bafybeifnerfsia2vtqyqlmndjyhwb3tectskhfahughankqtxyoyk5afou.ipfs.nftstorage.link/Mine_06.png',
 ];
 export const exchangeAssets = [
-  '/assets/ExchangeHouse_01.png',
-  '/assets/ExchangeHouse_02.png',
-  '/assets/ExchangeHouse_03.png',
+  'https://bafybeifnerfsia2vtqyqlmndjyhwb3tectskhfahughankqtxyoyk5afou.ipfs.nftstorage.link/ExchangeHouse_01.png',
+  'https://bafybeifnerfsia2vtqyqlmndjyhwb3tectskhfahughankqtxyoyk5afou.ipfs.nftstorage.link/ExchangeHouse_02.png',
+  'https://bafybeifnerfsia2vtqyqlmndjyhwb3tectskhfahughankqtxyoyk5afou.ipfs.nftstorage.link/ExchangeHouse_03.png',
 ];
 export const nftAssets = [
-  '/assets/nft1.png',
-  '/assets/nft2.png',
-  '/assets/nft3.png',
-  '/assets/nft4.png',
+  'https://bafybeifnerfsia2vtqyqlmndjyhwb3tectskhfahughankqtxyoyk5afou.ipfs.nftstorage.link/nft1.png',
+  'https://bafybeifnerfsia2vtqyqlmndjyhwb3tectskhfahughankqtxyoyk5afou.ipfs.nftstorage.link/nft3.png',
+  'https://bafybeifnerfsia2vtqyqlmndjyhwb3tectskhfahughankqtxyoyk5afou.ipfs.nftstorage.link/nft4.png',
+  'https://bafybeifnerfsia2vtqyqlmndjyhwb3tectskhfahughankqtxyoyk5afou.ipfs.nftstorage.link/nft2.png',
 ]
 
 type Props = {
@@ -105,7 +104,7 @@ export const MapGrid = ({
         <div
             className={`tile structrure-mine ${classAdd}`}
             key={`tile${t.x}-${t.y}`}
-            onClick={() => console.log({x:t.x, y:t.y, obj: "click mine"})}
+            onClick={() => alert('TODO: structrure-mine screen')}
         >
             <img src={mineAssets[mineAssetPointer]}></img>
         </div>
@@ -117,7 +116,7 @@ export const MapGrid = ({
         <div
             className={`tile structrure-exchange ${classAdd}`}
             key={`tile${t.x}-${t.y}`}
-            onClick={() => console.log({x:t.x, y:t.y, obj: "click exchange"})}
+            onClick={() => alert('TODO: structrure-exchange screen')}
         >
             <img className="img-exchange" src={exchangeAssets[exchangeAssetPointer]}></img>
         </div>

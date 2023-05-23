@@ -69,6 +69,12 @@ img {
 
 .player-scoreboard li {
     margin: 1vh 0;
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+
+.player-scoreboard li img {
+    max-height: 30px;
 }
 
 
@@ -87,7 +93,7 @@ img {
     flex-direction: row;
     flex-wrap: wrap;
 
-    background-image: url("/assets/MAP.png");
+    background-image: url("https://bafybeifnerfsia2vtqyqlmndjyhwb3tectskhfahughankqtxyoyk5afou.ipfs.nftstorage.link/MAP.png");
     background-size:     cover;
     background-repeat:   no-repeat;
     background-position: center center;
