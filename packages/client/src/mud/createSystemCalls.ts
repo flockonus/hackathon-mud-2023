@@ -7,13 +7,13 @@ export type SystemCalls = ReturnType<typeof createSystemCalls>;
 
 export function createSystemCalls(
   { worldSend, worldContract, txReduced$, singletonEntity }: SetupNetworkResult,
-  { Counter, Map, MapLocations }: ClientComponents
+  { Map, MapLocations }: ClientComponents
 ) {
-  const increment = async () => {
-    const tx = await worldSend("increment", []);
-    await awaitStreamValue(txReduced$, (txHash) => txHash === tx.hash);
-    return getComponentValue(Counter, singletonEntity);
-  };
+  // const increment = async () => {
+  //   const tx = await worldSend("increment", []);
+  //   await awaitStreamValue(txReduced$, (txHash) => txHash === tx.hash);
+  //   return getComponentValue(Counter, singletonEntity);
+  // };
 
   const setupMap = async () => {
     const tx = await worldSend("setupMap", []);
@@ -39,7 +39,6 @@ export function createSystemCalls(
   }
 
   return {
-    increment,
     setupMap,
     joinGame,
     getTime,

@@ -29,7 +29,8 @@ contract MapSystem is System {
 
     Map.set(uint64(rand()), 0, 15, true);
 
-    return 0;
+    // means.. nothing.
+    return 7;
   }
 
   function joinGame() public {
