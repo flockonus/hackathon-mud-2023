@@ -19,7 +19,7 @@ export default mudConfig({
         dimension: "uint8",
         locationsInitialized: "bool",
       }
-    }, 
+    },
     MapLocations: {
       keySchema: {
         x: "uint8",

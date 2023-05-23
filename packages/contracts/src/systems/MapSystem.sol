@@ -47,8 +47,8 @@ contract MapSystem is System {
       key: player,
       position: uint8(map.playersIn + 1),
       // simple auto-set for now
-      x: uint8(map.playersIn + (uint(map.playersIn) * 45 / 100) * 2),
-      y: uint8(3),
+      x: uint8(1 + map.playersIn + (uint(map.playersIn) * 60 / 100) * 2),
+      y: uint8(2),
       coinR: uint32(100),
       coinG: uint32(100),
       coinB: uint32(100),

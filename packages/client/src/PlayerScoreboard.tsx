@@ -17,10 +17,8 @@ export const PlayerScoreboard = () => {
   let didIJoinYet = false;
   const players = useEntityQuery([Has(Player)]).map((entity) => {
     const player = getComponentValueStrict(Player, entity);
-    console.log({playerEntity, entity});
-    
-    // no clue why the whole thing doesn't match, but it's close! lol
-    if (
+    // console.log({playerEntity, entity});
+    if ( // no clue why the whole thing doesn't match, but it's close! lol
       playerEntity?.substring(4) == entity.substring(2)
       || playerEntity == entity
     ) {

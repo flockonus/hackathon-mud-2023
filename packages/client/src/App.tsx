@@ -2,7 +2,7 @@ import { useComponentValue, useEntityQuery } from "@latticexyz/react";
 import { Entity, Has, getComponentValueStrict } from "@latticexyz/recs";
 import "./app.css";
 import { useMUD } from "./MUDContext";
-import { MapGrid } from "./MapGrid";
+import { MapGrid, nftAssets } from "./MapGrid";
 import { PlayerScoreboard } from "./PlayerScoreboard";
 const DIMENSION = 15;
 
@@ -10,7 +10,7 @@ export const App = () => {
   const {
     components: { Counter, MapLocations, Map, Player },
     systemCalls: { increment, setupMap },
-    network: { singletonEntity },
+    network: { singletonEntity, playerEntity },
   } = useMUD();
 
   const locations = useEntityQuery([Has(MapLocations)]).map((entity) => {
@@ -19,10 +19,18 @@ export const App = () => {
     return loc
   });
 
+  let me:any;
   const players = useEntityQuery([Has(Player)]).map((entity) => {
-    const p = getComponentValueStrict(Player, entity);
-    console.log({p});
-    return p
+    const player = getComponentValueStrict(Player, entity);
+  
+    if ( // no clue why the whole thing doesn't match, but it's close! lol
+      playerEntity?.substring(4) == entity.substring(2)
+      || playerEntity == entity
+    ) {
+      me = player;
+      player._self = true
+    }
+    return player
   });
 
 
@@ -33,9 +41,9 @@ export const App = () => {
         board[x][y] = {
           x,
           y,
-          emoji: `empty`,
-          type: 0,
-          player: 0,
+          emoji: ``,
+          tileType: 0,
+          playerPos: 0,
         }
       }
     }
@@ -45,27 +53,22 @@ export const App = () => {
       board[loc.x_][loc.y_] = {
         x: loc.x_,
         y: loc.y_,
-        emoji: `🏭:${loc.kind}`,
-        type: loc.kind,
-        player: 0,
+        emoji: ``,//`🏭:${loc.kind}`,
+        tileType: loc.kind,
+        playerPos: 0,
       }
     })
 
     // fill up players
     players.forEach(p => {
-      board[p.x][p.y].emoji = `👨‍🎤:${p.position}`;
-      board[p.x][p.y].player = p.position;
+      board[p.x][p.y].emoji = ``;//`👨‍🎤:${p.position}`;
+      board[p.x][p.y].playerPos = p.position;
     })
 
     return board;
   }
 
   const mapConfig = useComponentValue(Map, singletonEntity);
-  // if (mapConfig == null) {
-  //   throw new Error(
-  //     "map config not set or not ready, only use this hook after loading state === LIVE"
-  //   );
-  // }
 
   function initGame() {
     if (mapConfig == null) {
@@ -82,6 +85,22 @@ export const App = () => {
       )
     }
   }
+
+  function drawMyAvatar() {
+    if (me != undefined) {
+      return(
+        <div>
+          <center>
+          <img src={nftAssets[me.position-1]}></img>
+            <span>
+              <img src="/assets/Stamina_Coin.png" style={{maxHeight: '50px'}}></img>
+              {me.stamina}
+            </span>
+          </center>
+        </div>
+      )
+    }
+  }
   
   return (
     <>
@@ -91,12 +110,18 @@ export const App = () => {
             {initGame()}
           </div>
           <div className="avatar">
-            NFTs img goes here
+            {drawMyAvatar()}
           </div>
+          {/* TODO should pass players down to board to avoid loading 2x */}
           <PlayerScoreboard />
         </div>
         <div className="right-panel">
-          <MapGrid dimension={DIMENSION} terrain={buildTerrain()} onTileClick={console.log.bind(console, "click!")}/>
+          <MapGrid
+            dimension={DIMENSION}
+            terrain={buildTerrain()}
+            onTileClick={console.log.bind(console, "click!")}
+            players={players}
+          />
         </div>
       </div>
     </>
