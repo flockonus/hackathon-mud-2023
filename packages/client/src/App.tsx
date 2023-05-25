@@ -8,8 +8,7 @@ const DIMENSION = 15;
 
 export const App = () => {
   const {
-    components: { Counter, MapLocations, Map, Player },
-    systemCalls: { increment, setupMap },
+    components: { MapLocations, Map, Player },
     network: { singletonEntity, playerEntity },
   } = useMUD();
 

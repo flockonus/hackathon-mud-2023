@@ -1,5 +1,4 @@
 import { ReactNode, useEffect, useState } from "react";
-import { Entity } from "@latticexyz/recs";
 import { useMUD } from "./MUDContext";
 
 export enum ColorsType {
