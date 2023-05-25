@@ -3,7 +3,7 @@ import { mudConfig } from "@latticexyz/world/register";
 export default mudConfig({
   enums: {
     Structures: ["None", "Mine", "Exchange"],
-    Colors: ["None", "Red", "Green", "Blue"],
+    Colors: ["None", "Red", "Green", "Blue", "Stable"],
   },
   tables: {
     Counter: {
@@ -15,6 +15,7 @@ export default mudConfig({
       keySchema: {},
       schema: {
         uniqueId: "uint64",
+        startAt: "uint64",
         playersIn: "uint8",
         dimension: "uint8",
         locationsInitialized: "bool",

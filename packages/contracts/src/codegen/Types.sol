@@ -12,5 +12,6 @@ enum Colors {
   None,
   Red,
   Green,
-  Blue
+  Blue,
+  Stable
 }

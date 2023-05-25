@@ -10,6 +10,7 @@ export const App = () => {
   const {
     components: { MapLocations, Map, Player },
     network: { singletonEntity, playerEntity },
+    systemCalls: {gameStart}
   } = useMUD();
 
   const locations = useEntityQuery([Has(MapLocations)]).map((entity) => {
@@ -78,13 +79,13 @@ export const App = () => {
         // </button>
         <span>Loading...</span>
       )
-    } else {
+    } else if (mapConfig.startAt === 0n) {
       return (
-        // <button onClick={() => console.log('TODO lol')}>
-        //   Game Start!
-        // </button>
         <>
           <div>ℹ️ After joining, your character has 40 stamina, moving costs 2. Most core mechanics are still missing, more coming soon!</div>
+          <button onClick={() => gameStart()}>
+            Game Start!
+          </button>
         </>
       )
     }

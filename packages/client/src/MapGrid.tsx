@@ -38,6 +38,7 @@ export const coinAssets = [
   'https://bafybeifnerfsia2vtqyqlmndjyhwb3tectskhfahughankqtxyoyk5afou.ipfs.nftstorage.link/Red_Coin.png',
   'https://bafybeifnerfsia2vtqyqlmndjyhwb3tectskhfahughankqtxyoyk5afou.ipfs.nftstorage.link/Green_Coin.png',
   'https://bafybeifnerfsia2vtqyqlmndjyhwb3tectskhfahughankqtxyoyk5afou.ipfs.nftstorage.link/Blue_Coin.png',
+  '/assets/Stable_Coin.png'
 ];
 
 type Props = {
@@ -138,7 +139,7 @@ export const MapGrid = ({
             key={`tile${t.x}-${t.y}`}
             // onClick={() => onTileClick(t.x, t.y)} -- nothing, can't move to another player's cell
         >
-            <img className="img-exchange" src={nftAssets[t.playerPos-1]}></img>
+            <img className="img-player" src={nftAssets[t.playerPos-1]}></img>
         </div>
       )
     }

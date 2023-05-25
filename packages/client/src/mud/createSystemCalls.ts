@@ -38,10 +38,19 @@ export function createSystemCalls(
     console.log("getTime", res.toNumber())
   }
 
+  const gameStart = async() => {
+    const tx = await worldSend("gameStart", []);
+    // TODO consider treating the result to get exact end time
+    await awaitStreamValue(txReduced$, (txHash) => txHash === tx.hash);
+    return getComponentValue(Map, singletonEntity);
+  }
+
+
   return {
     setupMap,
     joinGame,
     getTime,
     movePlayer,
+    gameStart,
   };
 }

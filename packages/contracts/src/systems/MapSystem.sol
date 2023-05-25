@@ -27,7 +27,7 @@ contract MapSystem is System {
     MapLocations.set(3,12,  Structures.Mine, address(0), Colors.Blue, 3,12);
     MapLocations.set(7,7,   Structures.Exchange, address(1), Colors.None, 7,7);
 
-    Map.set(uint64(rand()), 0, 15, true);
+    Map.set(uint64(rand()), 0, 0, 15, true);
 
     // means.. nothing :D
     return 7;
@@ -78,5 +78,23 @@ contract MapSystem is System {
   function rand() internal returns (uint256) {
     seed += 1;
     return uint256(keccak256(abi.encode(blockhash(block.number - 1), seed)));
+  }
+
+  function gameEnd() public view returns (uint256) {
+    MapData memory mapInfo = Map.get();
+    return uint256(mapInfo.startAt) + 60 * 5;
+  }
+
+  function gameStart() public returns (uint256 startTime, uint256 endTime) {
+    MapData memory mapInfo = Map.get();
+    require(mapInfo.locationsInitialized, "map not yet init");
+    require(mapInfo.startAt == 0, "startAt is already set");
+    require(mapInfo.playersIn > 0, "at least 1 player");
+
+    startTime = block.timestamp;
+
+    Map.setStartAt(uint64(startTime));
+
+    return(startTime, gameEnd());
   }
 }

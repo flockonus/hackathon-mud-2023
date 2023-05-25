@@ -22,6 +22,7 @@ bytes32 constant MapTableId = _tableId;
 
 struct MapData {
   uint64 uniqueId;
+  uint64 startAt;
   uint8 playersIn;
   uint8 dimension;
   bool locationsInitialized;
@@ -30,11 +31,12 @@ struct MapData {
 library Map {
   /** Get the table's schema */
   function getSchema() internal pure returns (Schema) {
-    SchemaType[] memory _schema = new SchemaType[](4);
+    SchemaType[] memory _schema = new SchemaType[](5);
     _schema[0] = SchemaType.UINT64;
-    _schema[1] = SchemaType.UINT8;
+    _schema[1] = SchemaType.UINT64;
     _schema[2] = SchemaType.UINT8;
-    _schema[3] = SchemaType.BOOL;
+    _schema[3] = SchemaType.UINT8;
+    _schema[4] = SchemaType.BOOL;
 
     return SchemaLib.encode(_schema);
   }
@@ -47,11 +49,12 @@ library Map {
 
   /** Get the table's metadata */
   function getMetadata() internal pure returns (string memory, string[] memory) {
-    string[] memory _fieldNames = new string[](4);
+    string[] memory _fieldNames = new string[](5);
     _fieldNames[0] = "uniqueId";
-    _fieldNames[1] = "playersIn";
-    _fieldNames[2] = "dimension";
-    _fieldNames[3] = "locationsInitialized";
+    _fieldNames[1] = "startAt";
+    _fieldNames[2] = "playersIn";
+    _fieldNames[3] = "dimension";
+    _fieldNames[4] = "locationsInitialized";
     return ("Map", _fieldNames);
   }
 
@@ -107,11 +110,41 @@ library Map {
     _store.setField(_tableId, _keyTuple, 0, abi.encodePacked((uniqueId)));
   }
 
+  /** Get startAt */
+  function getStartAt() internal view returns (uint64 startAt) {
+    bytes32[] memory _keyTuple = new bytes32[](0);
+
+    bytes memory _blob = StoreSwitch.getField(_tableId, _keyTuple, 1);
+    return (uint64(Bytes.slice8(_blob, 0)));
+  }
+
+  /** Get startAt (using the specified store) */
+  function getStartAt(IStore _store) internal view returns (uint64 startAt) {
+    bytes32[] memory _keyTuple = new bytes32[](0);
+
+    bytes memory _blob = _store.getField(_tableId, _keyTuple, 1);
+    return (uint64(Bytes.slice8(_blob, 0)));
+  }
+
+  /** Set startAt */
+  function setStartAt(uint64 startAt) internal {
+    bytes32[] memory _keyTuple = new bytes32[](0);
+
+    StoreSwitch.setField(_tableId, _keyTuple, 1, abi.encodePacked((startAt)));
+  }
+
+  /** Set startAt (using the specified store) */
+  function setStartAt(IStore _store, uint64 startAt) internal {
+    bytes32[] memory _keyTuple = new bytes32[](0);
+
+    _store.setField(_tableId, _keyTuple, 1, abi.encodePacked((startAt)));
+  }
+
   /** Get playersIn */
   function getPlayersIn() internal view returns (uint8 playersIn) {
     bytes32[] memory _keyTuple = new bytes32[](0);
 
-    bytes memory _blob = StoreSwitch.getField(_tableId, _keyTuple, 1);
+    bytes memory _blob = StoreSwitch.getField(_tableId, _keyTuple, 2);
     return (uint8(Bytes.slice1(_blob, 0)));
   }
 
@@ -119,7 +152,7 @@ library Map {
   function getPlayersIn(IStore _store) internal view returns (uint8 playersIn) {
     bytes32[] memory _keyTuple = new bytes32[](0);
 
-    bytes memory _blob = _store.getField(_tableId, _keyTuple, 1);
+    bytes memory _blob = _store.getField(_tableId, _keyTuple, 2);
     return (uint8(Bytes.slice1(_blob, 0)));
   }
 
@@ -127,21 +160,21 @@ library Map {
   function setPlayersIn(uint8 playersIn) internal {
     bytes32[] memory _keyTuple = new bytes32[](0);
 
-    StoreSwitch.setField(_tableId, _keyTuple, 1, abi.encodePacked((playersIn)));
+    StoreSwitch.setField(_tableId, _keyTuple, 2, abi.encodePacked((playersIn)));
   }
 
   /** Set playersIn (using the specified store) */
   function setPlayersIn(IStore _store, uint8 playersIn) internal {
     bytes32[] memory _keyTuple = new bytes32[](0);
 
-    _store.setField(_tableId, _keyTuple, 1, abi.encodePacked((playersIn)));
+    _store.setField(_tableId, _keyTuple, 2, abi.encodePacked((playersIn)));
   }
 
   /** Get dimension */
   function getDimension() internal view returns (uint8 dimension) {
     bytes32[] memory _keyTuple = new bytes32[](0);
 
-    bytes memory _blob = StoreSwitch.getField(_tableId, _keyTuple, 2);
+    bytes memory _blob = StoreSwitch.getField(_tableId, _keyTuple, 3);
     return (uint8(Bytes.slice1(_blob, 0)));
   }
 
@@ -149,7 +182,7 @@ library Map {
   function getDimension(IStore _store) internal view returns (uint8 dimension) {
     bytes32[] memory _keyTuple = new bytes32[](0);
 
-    bytes memory _blob = _store.getField(_tableId, _keyTuple, 2);
+    bytes memory _blob = _store.getField(_tableId, _keyTuple, 3);
     return (uint8(Bytes.slice1(_blob, 0)));
   }
 
@@ -157,21 +190,21 @@ library Map {
   function setDimension(uint8 dimension) internal {
     bytes32[] memory _keyTuple = new bytes32[](0);
 
-    StoreSwitch.setField(_tableId, _keyTuple, 2, abi.encodePacked((dimension)));
+    StoreSwitch.setField(_tableId, _keyTuple, 3, abi.encodePacked((dimension)));
   }
 
   /** Set dimension (using the specified store) */
   function setDimension(IStore _store, uint8 dimension) internal {
     bytes32[] memory _keyTuple = new bytes32[](0);
 
-    _store.setField(_tableId, _keyTuple, 2, abi.encodePacked((dimension)));
+    _store.setField(_tableId, _keyTuple, 3, abi.encodePacked((dimension)));
   }
 
   /** Get locationsInitialized */
   function getLocationsInitialized() internal view returns (bool locationsInitialized) {
     bytes32[] memory _keyTuple = new bytes32[](0);
 
-    bytes memory _blob = StoreSwitch.getField(_tableId, _keyTuple, 3);
+    bytes memory _blob = StoreSwitch.getField(_tableId, _keyTuple, 4);
     return (_toBool(uint8(Bytes.slice1(_blob, 0))));
   }
 
@@ -179,7 +212,7 @@ library Map {
   function getLocationsInitialized(IStore _store) internal view returns (bool locationsInitialized) {
     bytes32[] memory _keyTuple = new bytes32[](0);
 
-    bytes memory _blob = _store.getField(_tableId, _keyTuple, 3);
+    bytes memory _blob = _store.getField(_tableId, _keyTuple, 4);
     return (_toBool(uint8(Bytes.slice1(_blob, 0))));
   }
 
@@ -187,14 +220,14 @@ library Map {
   function setLocationsInitialized(bool locationsInitialized) internal {
     bytes32[] memory _keyTuple = new bytes32[](0);
 
-    StoreSwitch.setField(_tableId, _keyTuple, 3, abi.encodePacked((locationsInitialized)));
+    StoreSwitch.setField(_tableId, _keyTuple, 4, abi.encodePacked((locationsInitialized)));
   }
 
   /** Set locationsInitialized (using the specified store) */
   function setLocationsInitialized(IStore _store, bool locationsInitialized) internal {
     bytes32[] memory _keyTuple = new bytes32[](0);
 
-    _store.setField(_tableId, _keyTuple, 3, abi.encodePacked((locationsInitialized)));
+    _store.setField(_tableId, _keyTuple, 4, abi.encodePacked((locationsInitialized)));
   }
 
   /** Get the full data */
@@ -214,8 +247,8 @@ library Map {
   }
 
   /** Set the full data using individual values */
-  function set(uint64 uniqueId, uint8 playersIn, uint8 dimension, bool locationsInitialized) internal {
-    bytes memory _data = encode(uniqueId, playersIn, dimension, locationsInitialized);
+  function set(uint64 uniqueId, uint64 startAt, uint8 playersIn, uint8 dimension, bool locationsInitialized) internal {
+    bytes memory _data = encode(uniqueId, startAt, playersIn, dimension, locationsInitialized);
 
     bytes32[] memory _keyTuple = new bytes32[](0);
 
@@ -223,8 +256,15 @@ library Map {
   }
 
   /** Set the full data using individual values (using the specified store) */
-  function set(IStore _store, uint64 uniqueId, uint8 playersIn, uint8 dimension, bool locationsInitialized) internal {
-    bytes memory _data = encode(uniqueId, playersIn, dimension, locationsInitialized);
+  function set(
+    IStore _store,
+    uint64 uniqueId,
+    uint64 startAt,
+    uint8 playersIn,
+    uint8 dimension,
+    bool locationsInitialized
+  ) internal {
+    bytes memory _data = encode(uniqueId, startAt, playersIn, dimension, locationsInitialized);
 
     bytes32[] memory _keyTuple = new bytes32[](0);
 
@@ -233,33 +273,36 @@ library Map {
 
   /** Set the full data using the data struct */
   function set(MapData memory _table) internal {
-    set(_table.uniqueId, _table.playersIn, _table.dimension, _table.locationsInitialized);
+    set(_table.uniqueId, _table.startAt, _table.playersIn, _table.dimension, _table.locationsInitialized);
   }
 
   /** Set the full data using the data struct (using the specified store) */
   function set(IStore _store, MapData memory _table) internal {
-    set(_store, _table.uniqueId, _table.playersIn, _table.dimension, _table.locationsInitialized);
+    set(_store, _table.uniqueId, _table.startAt, _table.playersIn, _table.dimension, _table.locationsInitialized);
   }
 
   /** Decode the tightly packed blob using this table's schema */
   function decode(bytes memory _blob) internal pure returns (MapData memory _table) {
     _table.uniqueId = (uint64(Bytes.slice8(_blob, 0)));
 
-    _table.playersIn = (uint8(Bytes.slice1(_blob, 8)));
+    _table.startAt = (uint64(Bytes.slice8(_blob, 8)));
 
-    _table.dimension = (uint8(Bytes.slice1(_blob, 9)));
+    _table.playersIn = (uint8(Bytes.slice1(_blob, 16)));
 
-    _table.locationsInitialized = (_toBool(uint8(Bytes.slice1(_blob, 10))));
+    _table.dimension = (uint8(Bytes.slice1(_blob, 17)));
+
+    _table.locationsInitialized = (_toBool(uint8(Bytes.slice1(_blob, 18))));
   }
 
   /** Tightly pack full data using this table's schema */
   function encode(
     uint64 uniqueId,
+    uint64 startAt,
     uint8 playersIn,
     uint8 dimension,
     bool locationsInitialized
   ) internal view returns (bytes memory) {
-    return abi.encodePacked(uniqueId, playersIn, dimension, locationsInitialized);
+    return abi.encodePacked(uniqueId, startAt, playersIn, dimension, locationsInitialized);
   }
 
   /** Encode keys as a bytes32 array using this table's schema */
