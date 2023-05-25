@@ -54,6 +54,7 @@ export const App = () => {
         //`🏭:${loc.kind}`,
         tileType: loc.kind,
         playerPos: 0,
+        _original: loc,
       }
     })
 
@@ -61,6 +62,7 @@ export const App = () => {
     players.forEach(p => {
       //`👨‍🎤:${p.position}`;
       board[p.x][p.y].playerPos = p.position;
+      board[p.x][p.y]._original = p;
     })
 
     return board;

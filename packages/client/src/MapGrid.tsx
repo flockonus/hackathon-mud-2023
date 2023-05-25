@@ -32,7 +32,13 @@ export const nftAssets = [
   'https://bafybeifnerfsia2vtqyqlmndjyhwb3tectskhfahughankqtxyoyk5afou.ipfs.nftstorage.link/nft3.png',
   'https://bafybeifnerfsia2vtqyqlmndjyhwb3tectskhfahughankqtxyoyk5afou.ipfs.nftstorage.link/nft4.png',
   'https://bafybeifnerfsia2vtqyqlmndjyhwb3tectskhfahughankqtxyoyk5afou.ipfs.nftstorage.link/nft2.png',
-]
+];
+export const coinAssets = [
+  'none',
+  'https://bafybeifnerfsia2vtqyqlmndjyhwb3tectskhfahughankqtxyoyk5afou.ipfs.nftstorage.link/Red_Coin.png',
+  'https://bafybeifnerfsia2vtqyqlmndjyhwb3tectskhfahughankqtxyoyk5afou.ipfs.nftstorage.link/Green_Coin.png',
+  'https://bafybeifnerfsia2vtqyqlmndjyhwb3tectskhfahughankqtxyoyk5afou.ipfs.nftstorage.link/Blue_Coin.png',
+];
 
 type Props = {
   dimension: number;
@@ -40,9 +46,10 @@ type Props = {
     x: number;
     y: number;
     tileType: number;
-    playerPos: number
+    playerPos: number;
     // true if the local player is adjancet to the tiles
     playerAdjacent?: boolean;
+    _original?: any;
   }[][];
   players?: {
     position: number;
@@ -92,13 +99,15 @@ export const MapGrid = ({
   //   }
   // }, [encounter]);
 
-  let mineAssetPointer = 1;
+  let mineAssetPointer = -1;
   let exchangeAssetPointer = 1;
   function makeTile(t:any){
     let classAdd = ""
     if (t.playerAdjacent) classAdd += "player-adjacent"
     if (t.tileType === StructuresType.Mine) {
-      mineAssetPointer = (mineAssetPointer + 1) % 7
+      mineAssetPointer = (mineAssetPointer + 1) % 6
+      console.log({mine: t._original});
+      
       return (
         <div
             className={`tile structrure-mine ${classAdd}`}
@@ -106,6 +115,7 @@ export const MapGrid = ({
             onClick={() => alert('TODO: structrure-mine screen')}
         >
             <img src={mineAssets[mineAssetPointer]}></img>
+            <img className="coin-badge" src={coinAssets[t._original.color]}></img>
         </div>
       )
     }

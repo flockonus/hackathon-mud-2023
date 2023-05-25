@@ -107,6 +107,7 @@ img {
 
     color: yellow;
     font-weight: bold;
+    pointer-events: auto;
 }
 
 .tile.structrure-exchange.player-adjacent, .tile.structrure-mine.player-adjacent {
@@ -118,6 +119,7 @@ img {
 
 .tile > img {
     max-width: 100%;
+    pointer-events: none;
 }
 
 .tile.player-adjacent {
@@ -127,4 +129,16 @@ img {
 
 .tile.player-adjacent:hover {
     border: 1px orange dashed;
+}
+
+ /* images */
+.coin-badge {
+    position: absolute;
+    zoom: 0.5;
+    translate: -11vw -1vw;
+}
+
+.img-exchange {
+    transform: scale(2.5);
+    translate: 0 -2vw;
 }
